@@ -25,21 +25,25 @@ subreddit = reddit.subreddit('mma')
 
 
 def createComment(term1, term2):
-    for comment in subreddit.stream.comments():
-        #so it doesn't infinitely respond to itself.
-        if comment.author.name == "GhostofMikeGoldberg":
+    while True:
+        try:
+            for comment in subreddit.stream.comments():
+                #so it doesn't infinitely respond to itself.
+                if comment.author.name == "GhostofMikeGoldberg":
+                    pass
+                else:
+                    if re.search(term1, comment.body, re.IGNORECASE) or \
+                       re.search(term2, comment.body, re.IGNORECASE):
+                        print comment.body
+                        goldie_reply = "You have been visited by the Ghost of Mike " \
+                                    "Goldberg's past...  \n" \
+                                    + "&nbsp;  \n" + "*" + random.choice(goldie_quotes) + "*" \
+                                    + "&nbsp;  \n" "**I am a spooky bot that haunts r/mma**"
+                        
+                        comment.reply(goldie_reply)
+                        print goldie_reply
+        except:
             pass
-        else:
-            if re.search(term1, comment.body, re.IGNORECASE) or \
-               re.search(term2, comment.body, re.IGNORECASE):
-                print comment.body
-                goldie_reply = "You have been visited by the Ghost of Mike " \
-                            "Goldberg's past...  \n" \
-                            + "&nbsp;  \n" + "*" + random.choice(goldie_quotes) + "*" \
-                            + "&nbsp;  \n" "**I am a spooky bot that haunts r/mma**"
-                
-                comment.reply(goldie_reply)
-                print goldie_reply
 
 createComment('mike goldberg', 'goldie')
 
